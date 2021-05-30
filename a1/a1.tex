@@ -1,0 +1,329 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+
+\lhead{
+\textbf{University of Waterloo}
+}
+\rhead{\textbf{2021 Spring}
+}
+\chead{\textbf{
+CS480/680
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Gautam Kamath (gckamath@uwaterloo.ca) \textcopyright 2021}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+  \large{\textbf{CS480/680: Introduction to Machine Learning} \\ Homework 1\\ \red{Due: 11:59 pm, June 03, 2021}, submit on Crowdmark and LEARN.} \\
+
+Include your name and student number!
+
+\end{center}
+
+\begin{center}
+Submit your writeup in pdf and all source code in a zip file (with proper documentation). Write a script for each programming exercise so that the TAs can easily run and verify your results. Make sure your code runs!
+
+[Text in square brackets are hints that can be ignored.]
+\end{center}
+
+
+
+\begin{exercise}[Perceptron Implementation (5 pts)]
+\blue{\textbf{Convention:} All algebraic operations, when applied to a vector or matrix, are understood to be element-wise (unless otherwise stated).}
+		
+\begin{algorithm}[H]
+\DontPrintSemicolon
+	\KwIn{$X\in\RR^{n\times d}$, $\yv\in \{-1,1\}^n$, $\wv=\zero_d$, $b=0$, $\mathsf{max\_pass} \in \mathds{N}$}
+	
+	\KwOut{$\wv, b, mistake$}
+	
+	\For{$t=1, 2, \ldots, \mathsf{max\_pass}$ }{
+		$mistake(t) \gets 0$
+		
+		\For{$i=1, 2, \ldots, n$}{
+			\If{$y_i (\inner{\xv_i}{\wv}+b) \leq 0$}{
+				$\wv \gets \wv + y_i\xv_i$ \tcp*{$\xv_i$ is the $i$-th row of $X$}
+			
+				$b \gets b + y_i$
+			
+				$mistake(t) \gets mistake(t) + 1$
+			}	
+		}
+	}
+	\caption{The perceptron algorithm.}
+	\label{alg:perceptron}
+\end{algorithm}
+	
+Implement the perceptron in \Cref{alg:perceptron}. Your implementation should take input as $X = [\xv_1^\top, \ldots, \xv_n^\top]^\top \in \RR^{n \times d}$, $\yv \in \{-1,1\}^{n}$, an initialization of the hyperplane parameters $\wv\in\RR^{d}$ and $b\in \RR$, and the maximum number of passes of the training set [suggested $\mathsf{max\_pass} = 500$]. Run your perceptron algorithm on the \href{https://archive.ics.uci.edu/ml/datasets/spambase}{\magenta{\textsf{spambase}}} dataset (use the version on the course website), and plot the number of mistakes ($y$-axis) \wrt the number of passes ($x$-axis).
+		
+\ans{	}
+
+\end{exercise}
+
+
+\begin{exercise}[Regression Implementation (8 pts)]
+Recall that ridge regression refers to
+\begin{align}
+  \min_{\wv\in \RR^d, b\in \RR} ~ \overbrace{\underbrace{\tfrac{1}{2n} \|X \wv+ b\one - \yv\|_2^2}_{\mbox{error}} + \lambda \|\wv\|_2^2}^{\mbox{loss}}, \label{eq:regression}
+\end{align}
+where $X \in \RR^{n \times d}$ and $\yv \in \RR^n$ are the given dataset and $\lambda \geq 0$ is the regularization hyperparameter.
+If $\lambda = 0$, then this is the standard linear regression problem.
+  Observe the distinction between the error (which does not include the regularization term) and the loss (which does).
+
+\begin{enumerate}
+  \item (1 pt) Show that ridge regression can be rewritten as a non-regularized linear regression problem.
+  That is, prove \ref{eq:regression} is equivalent to 
+\begin{align}
+  \min_{\wv\in \RR^d, b\in \RR} ~ \tfrac{1}{2n} \left\|\begin{bmatrix}
+X & \one_n \\
+    \sqrt{2\lambda n}I_d & \zero_d
+    \end{bmatrix} \begin{bmatrix} \wv  \\ b\end{bmatrix}  - \begin{bmatrix}\yv \\ \zero_d\end{bmatrix}\right\|_2^2 , 
+\end{align}
+where $I_d$ is the $d$-dimensional identity matrix, and $\zero_k$ and $\one_k$ are zero and one column vectors in $k$ dimensions.
+
+    \ans{}
+
+\item (1 pt) Show that the derivatives of \ref{eq:regression} are
+\begin{align}
+\frac{\partial}{\partial\wv} &=  \tfrac1n X^\top (X\wv + b\one - \yv) + 2 \lambda \wv\\
+\label{eq:b}
+\frac{\partial}{\partial b} &= \tfrac1n \one^\top (X\wv + b\one - \yv).
+\end{align}
+
+    \ans{} 
+
+  \item (2 pts) Implement ridge regression using the closed form solution for linear regression as derived in lecture. 
+    You may find the function \texttt{numpy.linalg.solve} useful.
+
+    \ans{}
+\item (2 pts) Implement the gradient descent algorithm for solving ridge regression. The following \red{incomplete} pseudo-code may of help.
+    Your training loss should monotonically decrease during iteration; if not try to tune your step size $\eta$, \eg make it smaller.
+
+    \ans{}
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+	\KwIn{$X\in\RR^{n\times d}$, $\yv\in \RR^n$, $\wv_0=\zero_d$, $b_0=0$, $\mathsf{max\_pass} \in \mathds{N}$, $\eta > 0$, $\mathsf{tol} > 0$}
+
+	\KwOut{$\wv, b$}
+
+	\For{$t=1, 2, \ldots, \mathsf{max\_pass}$ }{
+		$\wv_t \gets  $
+
+		$b_t \gets $
+
+		\If(\tcp*[f]{can use other stopping criteria}){$\|\wv_{t} - \wv_{t-1}\|  \leq \mathsf{tol}$}{
+			\textbf{break}
+		}
+	}
+
+	$\wv \gets \wv_t, ~ b \gets b_t$
+	\caption{Gradient descent for ridge regression.}
+	\label{alg:rr}
+\end{algorithm}
+
+    \ans{}
+
+  \item (2 pts) Test your two implementations on the Boston \href{http://lib.stat.cmu.edu/datasets/boston}{\textsf{\magenta{housing}}} dataset (to predict the median house price, \ie, $y$). 
+    Use the train and test splits provided on course website. 
+    Try $\lambda \in \{0, 10\}$ and report your training error, training loss and test error for each.
+    For the gradient descent algorithm, plot the training loss over iterations. 
+    Compare the running time of the two approaches, which is faster?
+    Overall, which approach do you think is better? Explain why.
+
+    \ans{}
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Playing with Regression (3 pts)]
+
+  \red{You may use the Python package scikit-learn for this exercise (and only for this exercise).}
+
+Train (unregularized) linear regression, ridge regression, and lasso on the mystery datasets A, B, and C on the course website (using X\_train and Y\_train for each dataset).
+For ridge regression and lasso, use regularization parameters $1$ and $10$ (note that you will have to divide these by $n$ for lasso in scikit-learn -- explain why).
+Report the average mean squared error on the test set for each method.
+Which approach performs best in each case?
+Plot the five parameter vectors obtained for each dataset on the same histogram, so they're all visible at once (change the opacity setting for the bars if necessary): specifically, for each parameter vector, plot a histogram of its value in each coordinate.
+
+  \ans{}
+\end{exercise}
+
+\begin{exercise}[Nearest Neighbour Regression (7 pts)]
+  \begin{enumerate}
+    \item (3 pts) Implement $k$-nearest neighbour regression, for a dataset of $n$ $X, y$ pairs where $X \in \mathbb{R}^d$ and $y \in \mathbb{R}$. 
+      This is similar to $k$-nearest neighbour classification, but instead of aggregating labels by taking the majority, we average the $y$ values of the $k$ nearest neighbours.
+      Use $\ell_2$ distance as the distance metric, that is, the distance between points $X_1$ and $X_2$ is $\|X_1 - X_2\|_2$.
+      Ensure that your implementation is $O(nd)$ time for all values of $k$, and argue that this is the case.
+
+    \ans{}
+    \item (2 pts) For the training sets of the $d=1$ mystery datasets D and E on the course website, compute a) the (unregularized) least squares linear regression solution and b) the $k$-nearest neighbour regression solution with each integer $k$ from $1$ to $9$.
+      For each dataset, on one plot with the $x$ and $y$ axes corresponding to the $x$ and $y$ values, display the least squares solution, the $1$-nearest neighbour solution, and the $9$-nearest neighbour solution. 
+      Be sure to plot these solutions for all points between the minimum and maximum $x$ values, not just for the points in the dataset.
+      On another plot, with $k$ on the $x$ axis and test mean-squared error on the $y$ axis, display the error of the $k$-NN solution for each value of $k$. 
+      On the same plot, include the test error of the least squares solution as a horizontal line.
+      When does each approach perform better, and why? 
+
+    \ans{}
+    \item (2 pts) For the training set of the $d = 20$ mystery dataset F on the course website, compute a) the (unregularized) least squares linear regression solution and b) the $k$-nearest neighbour regression solution with each integer $k$ from $1$ to $9$.
+      Plot, with $k$ on the $x$ axis and test mean-squared error on the $y$ axis, display the error of the $k$-NN solution for each value of $k$. 
+      On the same plot, include the test error of the least squares solution as a horizontal line.
+      Which approach performs better, and why? 
+      Hint: consider inspecting distances between the test points and their $k$ nearest neighbours in the training set.
+
+    \ans{}
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
+              
