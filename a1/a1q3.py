@@ -62,8 +62,9 @@ def setA():
         print("Lasso 1")
     elif (best == resLasso10):
         print("Lasso 10")
-    kwargs = dict(histtype='stepfilled', alpha = 0.2, bins=40)
+    kwargs = dict(histtype='step', alpha = 0.2, bins=40)
     figA = plt.figure()
+    plt.title("A1 E3 Set A")
     plt.hist(wLinReg, **kwargs, label = 'Linear Regression')
     plt.hist(wRidge1, **kwargs, label = 'Ridge Regression 1')
     plt.hist(wRidge10, **kwargs, label = 'Ridge Regression 10')
@@ -71,7 +72,7 @@ def setA():
     plt.hist(wLasso10, **kwargs, label = 'Lasso 10')
     plt.legend(loc='upper right')
     plt.title
-    figA.savefig('setA.png', facecolor='w', edgecolor='w')
+    figA.savefig('a1q3A.png', facecolor='w', edgecolor='w')
     
 
 def setB():
@@ -98,14 +99,16 @@ def setB():
     elif (best == resLasso10):
         print("Lasso 10")
     figB = plt.figure()
-    kwargs = dict(histtype='stepfilled', alpha = 0.2, bins=40)
+    plt.title("A1 E3 Set B")
+    kwargs = dict(histtype='step', alpha = 0.2, bins=40)
     plt.hist(wLinReg, **kwargs, label = 'Linear Regression')
     plt.hist(wRidge1, **kwargs, label = 'Ridge Regression 1')
     plt.hist(wRidge10, **kwargs, label = 'Ridge Regression 10')
     plt.hist(wLasso1, **kwargs, label = 'Lasso 1')
     plt.hist(wLasso10, **kwargs, label = 'Lasso 10')
+    plt.legend(loc='upper right')
     plt.title
-    figB.savefig('setB.png', facecolor='w', edgecolor='w')
+    figB.savefig('a1q3B.png', facecolor='w', edgecolor='w')
     
 
 def setC():
@@ -132,7 +135,8 @@ def setC():
     elif (best == resLasso10):
         print("Lasso 10")
     figC = plt.figure()
-    kwargs = dict(histtype='stepfilled', alpha = 0.2, bins=40)
+    plt.title("A1 E3 Set C")
+    kwargs = dict(histtype='step', alpha = 0.2, bins=40)
     plt.hist(wLinReg, **kwargs, label = 'Linear Regression')
     plt.hist(wRidge1, **kwargs, label = 'Ridge Regression 1')
     plt.hist(wRidge10, **kwargs, label = 'Ridge Regression 10')
@@ -140,7 +144,7 @@ def setC():
     plt.hist(wLasso10, **kwargs, label = 'Lasso 10')
     plt.legend(loc='upper right')
     plt.title
-    figC.savefig('setC.png', facecolor='w', edgecolor='w')
+    figC.savefig('a1q3C.png', facecolor='w', edgecolor='w')
     
 setA()
 setB()
