@@ -2,6 +2,9 @@
 # target files have prefix a1q2 and file type png
 import numpy
 import matplotlib.pyplot as plt
+import time
+
+
 
 housing_X_test = numpy.matrix.transpose(numpy.genfromtxt('housing_X_test.csv', delimiter=','))
 housing_X_train = numpy.matrix.transpose(numpy.genfromtxt('housing_X_train.csv', delimiter=','))
@@ -48,6 +51,8 @@ def gradientDescent (X, y, l, max_pass, step, tol):
 
 n = len(housing_X_test)
 
+t0 = time.time()
+
 # RR lambda = 0
 wRR0, bRR0 = ridgeRegression(housing_X_train, housing_y_train, 0)
 
@@ -72,6 +77,11 @@ print("Training loss for RR with lambda = 10 is", trainlossRR10)
 testerrorRR10 = numpy.sum(numpy.square(housing_X_test.dot(wRR10) + bRR10 - housing_y_test))/(2 * n)
 print("Testing error for RR with lambda = 10 is", testerrorRR10)
 
+t1 = time.time()
+
+print("RR took:", t1-t0, "seconds")
+
+t2 = time.time()
 # GD lambda = 0
 wGD0, bGD0 = gradientDescent(housing_X_train, housing_y_train, 0, 100000, 0.00001, 0.0000001)
 
@@ -96,6 +106,10 @@ print("Training loss for GD with lambda = 10 is", trainlossGD10)
 
 testerrorGD10 = numpy.sum(numpy.square(housing_X_test.dot(wGD10[-1]) + bGD10[-1] - housing_y_test))/(2 * n)
 print("Testing error for GD with lambda = 10 is", testerrorGD10)
+
+t3 = time.time()
+
+print("GD took:", t3-t2, "seconds")
 
 traininglossiterGD0 = []
 traininglossiterGD10 = []
