@@ -1,3 +1,5 @@
+# run ./q1.sh
+# target files have prefix a1q1 and file type png
 import numpy
 import matplotlib.pyplot as plt
 def plotGraph(data, xlabel, ylabel, title, filename, ymin=-1, ymax=-1):

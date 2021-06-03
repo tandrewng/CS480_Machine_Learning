@@ -1,3 +1,5 @@
+# run ./q2.sh
+# target files have prefix a1q2 and file type png
 import numpy
 import matplotlib.pyplot as plt
 

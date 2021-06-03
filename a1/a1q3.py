@@ -1,3 +1,5 @@
+# run ./q3.sh
+# target files have prefix a1q3 and file type png
 import numpy
 from sklearn.linear_model import Ridge, LinearRegression, Lasso
 from sklearn.metrics import mean_squared_error
