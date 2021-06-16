@@ -1,0 +1,374 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+
+\lhead{
+\textbf{University of Waterloo}
+}
+\rhead{\textbf{2021 Winter}
+}
+\chead{\textbf{
+CS480/680
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\Xv}{\mathbf{X}}
+\newcommand{\Yv}{\mathbf{Y}}
+\newcommand{\zv}{\mathbf{z}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+
+\usepackage{ulem}
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+\newcommand{\sgm}{\mathsf{sgm}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Gautam Kamath (gckamath@uwaterloo.ca) \textcopyright 2021}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+\usepackage{xpatch}
+\xpretocmd{\algorithm}{\hsize=\linewidth}{}{}
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+\large{\textbf{CS480/680: Introduction to Machine Learning} \\ Homework 2\\ Due: 11:59 pm, June 17, 2021, submit on CrowdMark.} \\
+
+Include your name and student number!
+
+\end{center}
+
+\begin{center}
+Submit your writeup in pdf and all source code in a zip file (with proper documentation). 
+Fill in the provided stub files, keeping the directory structure. You do not have to submit the provided datasets.
+Make sure your code runs!
+
+[Text in square brackets are hints that can be ignored.]
+\end{center}
+
+\begin{exercise}[Poisson Regression (4 pts)]
+Recall that in logistic regression we assumed the \emph{binary} label $Y_i \in \{0,1\}$ follows the Bernoulli distribution: $\Pr(Y_i = 1 | X_i) = p_i$, where $p_i$ also happens to be the mean. Under the independence assumption we derived the log-likelihood function:
+\begin{align}
+\sum_{i=1}^n (1-y_i) \log(1-p_i) + y_i \log(p_i).
+\end{align}
+Then, we parameterized the mean parameter $p_i$ through the logit transform:
+\begin{align}
+\log\frac{p_i}{1-p_i} = \wv^\top \xv_i + b, \quad \mbox{ or equivalently } \quad p_i = \frac{1}{1+\exp(-\wv^\top \xv_i - b)}.
+\end{align}
+Lastly, we found the weight vector $\wv$ and $b$ by maximizing the log-likelihood function. 
+
+In the following we generalize the above idea to the case where $Y_i \in \mathds{N}$, i.e., $Y_i$ can take any natural number (for instance, when we are interested in predicting the number of customers or network packages).
+
+\begin{enumerate}
+\item (1 pt) Naturally, we assume $Y_i \in \mathds{N}$ follows the Poisson distribution (with mean $\mu_i \geq 0$):
+	\begin{align}
+	\Pr(Y_i = k | X_i) = \frac{\mu_i^k}{k!} \exp(-\mu_i), ~~ k = 0, 1, 2, \ldots.
+	\end{align}
+	Given a dataset $\Dc = \{\xv_i, y_i\}_{i=1}^n$, what is the log-likelihood function (of $\mu_i$'s) given $\Dc$?
+
+\ans{} 
+	
+\item (1 pt) Can you give some justification of the parameterization below?
+	\begin{align}
+	\log\mu_i = \wv^\top \xv_i + b.
+	\end{align}
+
+\ans{} 
+	
+\item (1 pt) Based on the above, write down the objective function for Poisson regression. Please specify the optimization variables and whether you are maximizing or minimizing. [Constants can be dropped.]
+
+\ans{} 
+	
+\item (1 pt) Compute the gradient of your objective function above and formulate a gradient algorithm for finding the weight vector $\wv$ and $b$. 
+	
+\ans{} 
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Fun with Classification (5 pts)]
+For this problem, you are allowed to use \texttt{statsmodels} and \texttt{sklearn} as directed.
+\begin{enumerate}
+\item (2 pts) Run logistic regression, SVM with $\ell_2$ regularization with parameter $1$ (soft-margin SVM), and SVM with regularization parameter \texttt{float('inf')} (hard-margin SVM) on Mystery Dataset A (note that there is only a training dataset and no test dataset). Use \texttt{Logit} from \texttt{statsmodels} and \texttt{SVC} (with linear kernel) from \texttt{sklearn}.
+One of these methods will not work -- give a mathematically rigorous explanation as to why this happens.
+[Think carefully about the loss function used for this method. Look at the error message, and think about what happens in the case indicated.]
+How could the associated problems be remedied?
+Discuss similarities and differences between the solution obtained via these two working methods. 
+
+\ans{} 
+
+\item (3 pts) Take your solution for the soft-margin SVM from the previous part.
+For each point in the dataset, take its inner product with the produced coefficient vector, and scale the result by the sign of each point's label (replace 0's with -1's). How many of these values are $\leq 1$? [Be sure you're getting all of them -- there may be numerical precision issues, so if in doubt, err on the side of counting a point.]
+Based on your answer to these questions, sketch a 2D caricature of what the points and the hyperplane defined by the SVM solution look like.
+    (A ``caricature'' in this context means a rough sketch of what you think Mystery Dataset A looks like, using the information you have learned in this question and the previous part. 
+    There will be a few key features of the dataset you can emphasize in your caricature.
+    This might use more information than the literal exact answers to the questions that have been asked (though not much more).
+    ) 
+Write the parameter vector solution to the SVM problem as a linear combination of some points in your dataset.
+How many points did you require?
+[You may find built-in functions useful for this purpose.]
+
+Compute the solution for the same three methods on Mystery Dataset B. 
+You will again run into issues with one of them -- explain why. [The answer is likely to be simpler than last time.]
+Find a way to write the parameter vector solution to the SVM problem as a linear combination of some points in your dataset -- do not report the solution itself, but report how many points you used, and how you arrived at this answer.
+Compare the empirical prediction accuracy (i.e., using 0-1 loss) of the successfully-trained classifiers on the test set. 
+
+\ans{} 
+
+\item (Optional -- 0 pts) Construct a dataset in which every point is a support vector. 
+  Do this for the soft margin ($C = 1$) and hard margin ($C = \infty$) cases.
+  Make sure this dataset has $n \geq 100$ points.
+  Submit these datasets in the \texttt{data} folder, as well as code required to generate them and demonstrate the number of support vectors.
+
+    \ans{}
+
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}[Support Vector Regression (8 pts)]
+Let us consider support vector regression:
+\begin{align}
+\label{eq:CSVM}
+\min_{\wv\in \RR^d, 
+b\in\RR}  ~ \frac{1}{2} \|\wv\|_2^2 + C\sum_{i=1}^n \max\{ | y_i -  (\wv^\top \xv_i + b)| -\varepsilon , 0 \},
+\end{align}
+where $\xv_i \in \RR^d$, $y_i \in \RR$, and $\|\wv\|_2 := \sqrt{\sum_{j=1}^d w_j^2}$ is the Euclidean norm.
+The above expression is the loss function, the error is simply the latter term $C\sum_{i=1}^n \max\{ | y_i -  (\wv^\top \xv_i + b)| -\varepsilon , 0 \}$.
+
+\begin{enumerate}
+	
+\item (2 pts) Derive the Lagrangian dual of the support vector regression loss function \eqref{eq:CSVM}. Please include intermediate steps so that you can get partial credit.
+
+\ans{} 
+
+
+\vskip1cm
+
+In the following you will complete and implement the following gradient algorithm for solving support vector regression in \Cref{eq:CSVM}:
+
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\KwIn{$X\in\RR^{n\times d}$, $\yv\in \RR^n$, $\wv=\zero_d$, $b=0$, $\mathsf{max\_pass} \in \mathds{N}$, step size $\eta$}
+	
+	\KwOut{$\wv, b$}
+	
+	\For{$t=1, 2, \ldots, \mathsf{max\_pass}$ }{
+		
+		\For{$i=1, 2, \ldots, n$}{
+			
+			choose step size $\eta$
+			
+			\If{$|y_i - (\inner{\xv_i}{\wv}+b)| \geq \varepsilon$}{
+				$\wv \gets $ \tcp*{$\xv_i$ is the $i$-th row of $X$}
+				
+				$b \gets $
+			}	
+			
+			$\wv \gets $ \tcp*{proximal step}
+		}
+	}
+	\caption{GD for SVR.}
+	\label{alg:CSVM}
+\end{algorithm}
+
+    Note that this differs a bit from what you've seen so far, in terms of gradient descent. Rather than taking steps based on the entire loss function, we instead take a step based on the unregularized loss, and then perform a projection step based on the regularizer (sometimes called a ``proximal step'').
+
+\item (2 pts) Compute the gradient with respect to $\wv$ and $b$ for each second term in \Cref{eq:CSVM}.
+Note that in places where the function is non-differentiable, you might have to compute a sub-gradient.
+\begin{align}
+C\sum_{i=1}^n \max\{ | y_i -  (\wv^\top \xv_i + b)| -\varepsilon , 0 \}
+\end{align}
+	
+	
+\ans{} 
+
+	
+\item (1 pt) Find the closed-form solution of the following proximal step:
+	\begin{align}
+	\mathsf{P}^\eta(\wv) = \argmin_{\zv} ~ \frac{1}{2\eta} \|\zv - \wv\|_2^2 + \frac{1}{2} \|\zv\|_2^2
+	\end{align}
+	
+	
+\ans{} 
+
+	
+\item (3 pts) Implement \Cref{alg:CSVM}. You should use part 2 to complete lines 5-6, and part 3 for line 7. 
+Run it on Mystery Dataset C (this is Mystery Dataset A from Assignment 1, but reused), and report your training error, training loss, and test error. Use $C=1$ and $\varepsilon = 0.5$.
+
+\ans{} 
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Kernels (5 pts)]
+      For the following questions you might find it useful to recall the definition of a matrix being positive semidefinite (PSD).
+      A matrix $M \in \mathbb{R}^{d \times d}$ is PSD if and only if $x^T Mx \geq 0$ for all vectors $x \in \mathbb{R}^d$.
+      It may also be helpful to refresh yourself on Taylor series.
+
+  \begin{enumerate}
+    \item (2 pt) For $x, y \in \mathbb{R}$, consider the kernel function $k(x, y) = \exp\left(-\alpha\left(x - y\right)^2\right)$.
+      What is the corresponding feature map $\phi(\cdot)$ such that $\phi(x)^T \phi(y) = k(x, y)$?
+      If you were using this kernel for an SVM model, would you prefer to solve the primal or dual representation? Why?
+
+\ans{}
+
+
+    \item (1 pt) Consider the function $\frac{1}{1 - xy}$, where $x, y \in (-1, 1)$.
+      Is this function a valid kernel?
+      If so, write out the corresponding feature map $\phi(\cdot)$, if not, explain why.
+
+\ans{}
+    \item (1 pt) Consider the function $\log (1 + xy)$, where $0 < x, y \in \mathbb{R}$.
+      Is this function a valid kernel?
+      If so, write out the corresponding feature map $\phi(\cdot)$, if not, explain why.
+
+\ans{}
+    \item (1 pt) Consider the function $\cos(x + y)$, where $x, y \in \mathbb{R}$.
+      Is this function a valid kernel?
+      If so, write out the corresponding feature map $\phi(\cdot)$, if not, explain why.
+
+\ans{}
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
+              
