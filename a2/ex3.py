@@ -8,9 +8,9 @@ def SVR(X_train, Y_train, C, eps):
     #Implement me! You may choose other parameters eta, max_pass, etc. internally
     #Return: parameter vector w, b
     max_pass = 1000
-    eta = 0.0001
-    n = len(y)
-    w = np.zeros(X_train[0])
+    eta = 0.000000001
+    n = len(Y_train)
+    w = np.zeros(len(X_train[0]))
     b = 0
 
     for t in range(max_pass):
@@ -29,13 +29,17 @@ def SVR(X_train, Y_train, C, eps):
 def compute_loss(X, Y, w, b, C, eps):
     #Implement me!
     #Return: loss computed on the given set
-    pass
+    return (1/2)*(np.linalg.norm(w)**2) + compute_error(X, Y, w, b, C, eps)
 
 def compute_error(X, Y, w, b, C, eps):
     #Implement me!
     #Return: error computed on the given set
-    pass
-
+    n = len(Y)
+    retval = 0
+    for i in range(n):
+        retval += max(abs(Y[i]-(np.inner(w,X[i]) + b))-eps, 0)
+    
+    return C*retval
 
 if __name__ == "__main__":
     args = sys.argv[1:]
@@ -46,3 +50,6 @@ if __name__ == "__main__":
     Y_test = np.loadtxt(args[3], delimiter=",")
     C = float(args[4])
     eps = float(args[5])
+    w, b = SVR(X_train, Y_train, C, eps)
+    print("error:", compute_error(X_test, Y_test, w, b, C, eps))
+    print("loss:", compute_loss(X_test, Y_test, w, b, C, eps))
