@@ -1,0 +1,401 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+
+\lhead{
+\textbf{University of Waterloo}
+}
+\rhead{\textbf{2021 Spring}
+}
+\chead{\textbf{
+CS480/680
+ }}
+ \usepackage{stmaryrd}
+\newcommand{\pred}[1]{\llbracket#1\rrbracket}
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\Id}{\mathbb{I}}
+\newcommand{\NN}{\mathds{N}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\alphav}{\boldsymbol{\alpha}}
+\newcommand{\betav}{\boldsymbol{\beta}}
+\newcommand{\av}{\mathbf{a}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\sv}{\mathbf{s}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\zv}{\mathbf{z}}
+\newcommand{\uv}{\mathbf{u}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+\newcommand{\Xv}{\mathbf{X}}
+\newcommand{\Yv}{\mathbf{Y}}
+\newcommand{\EE}{\mathds{E}}
+\newcommand{\pv}{\mathbf{p}}
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+\newcommand{\sgm}{\mathsf{sgm}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Gautam Kamath (gckamath@uwaterloo.ca) \textcopyright 2021}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+\usepackage{xpatch}
+\xpretocmd{\algorithm}{\hsize=\linewidth}{}{}
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+\large{\textbf{CS480/680: Introduction to Machine Learning} \\ Homework 3\\ \red{Due: 11:59 pm, June 30, 2021}, submit on CrowdMark .} \\
+
+Include your name and student number!
+
+\end{center}
+
+\begin{center}
+Submit your writeup in pdf and all source code in a zip file (with proper documentation). Write a script for each programming exercise so that the TAs can easily run and verify your results. Make sure your code runs!
+
+[Text in square brackets are hints that can be ignored.]
+\end{center}
+
+\begin{exercise}[Decision Trees (8 pts)]
+  In this exercise we will implement decision trees for binary classification.
+  Use the provided stub files.
+
+  Recall: decision trees are constructed by repeatedly splitting of nodes.
+  We split a node by measuring the loss of splitting with respect to each possible feature and threshold, and split based on the feature and threshold that minimizes this loss.
+  Mathematically:
+  \[X_L = \{x\ :\ x \in X \wedge  x[i] \leq j\},\]
+  \[X_R = \{x\ :\ x \in X \wedge  x[i] > j\},\]
+  where $x[i]$ is the $i$th coordinate of point $x$.
+  The vector of labels $y$ is split into vectors $y_L$ and $y_R$ using the same indices.
+
+  The loss of splitting a training dataset into a left and right half is computed as 
+  \[\ell(X,y,i,j) = \frac{|y_L|}{|y|}\ell(y_L) + \frac{|y_R|}{|y|}\ell(y_R) \]
+
+  We will consider the following loss functions $\ell$, specialized for binary classification.\footnote{Note that these are slightly different from what we discussed in class, since we are only focusing on binary classification. Additionally, there was some implicit rescaling which we omit here.}
+  Define $\hat p$ for a vector of labels $y$ to be $\frac{|\{y_j = 1 : y_j \in y\}|}{|y|}$, that is, the fraction of labels which are $1$.
+  We have the following three loss functions.
+
+  \noindent Misclassification error:
+  \[\min \{\hat p, 1-\hat p\}\]
+  Gini coefficient:
+  \[\hat p (1 - \hat p)\]
+  Entropy:
+  \[- \hat p \log_2 (\hat p) - (1 - \hat p) \log_2 (1 - \hat p ) \]
+
+  We do not split a node if it is pure (i.e., consists entirely of either $0$'s or $1$'s), or if a split would exceed a maximum depth hyperparameter provided to the decision tree (recall that the depth of a single-node tree is $0$).
+
+
+
+  \begin{enumerate} [label=\alph*)]
+    \item (6 pts) Implement and train decision trees on the provided dataset. Create a different plot for each of the three loss functions (misclassification error, Gini index, and entropy). The x-axis of each plot should show the maximum depth of the tree (starting from 0), and the y-axis should indicate the accuracy. Include two trend lines, one for the training accuracy and test accuracy. Observe and comment on how the different loss functions perform, and how train and test accuracy change as a function of the maximum depth.
+    \item (2 pts) Implement and use Bagging on decision trees. Use the entropy loss, and create an ensemble of 101 decision trees, capping the maximum depth at 3. Repeat 11 times, report the median, minimum, and maximum test classification accuracy.
+      Repeat, but using the random forests method. In particular, at each split, consider only a random $\sqrt{d}$ features when deciding which dimension to split on. Since $\sqrt{d} \approx 3.6$ for the given dataset, choose a random $4$ features for each time.
+      Report the classification accuracies as before.
+      Comment on performance between the two, as well as how they perform in comparison to the non-ensemble methods from the previous part.
+  \end{enumerate} 
+\end{exercise} 
+
+\begin{exercise}[Adaboost (5 pts)]
+
+	Recall the update rules of Adaboost:
+	\begin{align}
+	p^t_i &= \frac{w^t_i}{\sum_{j=1}^n w^t_j},  ~~ i=1, \ldots, n \\
+	\label{eq:eps} \epsilon_t &= \epsilon_t(h_t) = \sum_{i=1}^n p^t_i \cdot \pred{h_t(\xv_i) \ne y_i} \\
+	\label{eq:beta}\beta_t &= \frac12\log\frac{1-\epsilon_t}{\epsilon_t} \\
+	\label{eq:w} w^{t+1}_i&= w^t_i \exp(- y_i \beta_t h_t(\xv_i) ),  ~~ i=1, \ldots, n.
+	\end{align}
+	Here we use $i$ and $t$ to index the training examples and iterations, respectively. $\pred{A} = 1$ if the event $A$ holds and 0 otherwise. Here $y_i \in \{\pm 1\}$ and \textbf{we also assume $h_t(\xv_i) \in \{\pm 1\}$}.
+	In this exercise we offer additional insights about Adaboost.
+
+	\begin{enumerate}[label=\alph*)]
+    \item (1 pt) Prove by induction that the updates defined above are equivalent to the following updates where the $y$'s and $h$'s are $\{0, 1\}$ rather than $\{\pm 1\}$:
+		\begin{align}
+		\tilde\beta_t &= \frac{\epsilon_t}{1-\epsilon_t} \\
+		\tilde w^{t+1}_i & = \tilde w^t_i \tilde\beta_t^{1-|\tilde h_t(\xv_i) - \tilde y_i|},
+		\end{align}
+		where $\tilde y_i = \tfrac{y_i+1}{2}, \tilde h(\xv_i) = \tfrac{h(\xv_i)+1}{2} \in \{ 0,1\}$.
+
+		[Hint: Show that $p_i^t$ remains the same under the two seemingly different updates.]
+
+\ans{} 
+		\item (1 pt) Recall in the logistic regression lecture we made the linear assumption on the log odds ratio:
+		\begin{align}
+		\log\frac{p(y=1 | \Xv = \xv)}{p(y=-1 | \Xv = \xv)} \approx \wv^\top \xv + b.
+		\end{align}
+		Adaboost in effect tries to approximate the log odds ratio using \emph{additive} functions:
+		\begin{align}
+		\log\frac{p(y=1 | \Xv = \xv)}{p(y=-1 | \Xv = \xv)} \approx \sum_{t=1}^T \beta_t h_t(\xv),
+		\end{align}
+		where each $h_t(\xv)$ is a weak classifier. Indeed, fixing $\Xv = \xv$, prove that the minimizer of the following exponential loss
+		\begin{align}
+		\label{eq:exp}
+		\min_{H\in \RR} ~~ \EE[ \exp(- y H) | \Xv = \xv ]
+		\end{align}
+		is (proportional to) the log odds ratio. Here the expectation is wrt the conditional distribution $p(y | \Xv = \xv)$.
+
+		[Any function can be approximated arbitrarily well by additive functions but clearly not by linear functions, thus the power of Adaboost.]
+
+\ans{} 
+		\item (1 pt) Suppose $h_t$ is a weak classifier whose error $\epsilon_t > 1/2$, i.e. worse than random guessing! In this case it makes sense to flip $h_t$ to $\bar h_t (\xv) = - h_t(\xv)$. Compute the error $\epsilon_t(\bar h_t)$ and the resulting $\bar \beta_t$. Do we get the same update for $w$ in \eqref{eq:w}? Explain.
+
+\ans{} 
+		\item (1 pt) Adaboost is a greedy algorithm where we find the weak classifiers sequentially. At iteration $t$, the classifiers $h_{s}, s < t$ are already found along with their coefficients $\beta_s$. Suppose $h_t$ is given by some oracle, to find the optimal coefficient $\beta_t$, we solve an empirical approximation of the exponential loss \eqref{eq:exp}:
+      \label{asdf}
+		\begin{align}
+		\label{eq:betaopt}
+		\min_{\beta\in\RR} ~~ \frac{1}{n}\sum_{i=1}^n \exp(- y_i [H_{t-1}(\xv_i) + \beta h_t(\xv_i)]),
+		\end{align}
+		where needless to say, $H_{t-1}(\xv) := \sum_{s=1}^{t-1} \beta_s h_s(\xv)$.
+		While it is possible to solve \eqref{eq:betaopt} directly, we gain more insights by defining a distribution over the training examples $(\xv_i, y_i), i=1, \ldots, n$:
+		\begin{align}
+		p_i^t = \frac{\exp(- y_i H_{t-1}(\xv_i))}{\sum_{i=1}^n \exp(- y_i H_{t-1}(\xv_i))},
+		\end{align}
+		so that we can rewrite \eqref{eq:betaopt} equivalently as:
+		\begin{align}
+		\label{eq:bopt}
+		\min_{\beta \in \RR} ~~ \hat\EE_t \exp[- y \beta h_t(\xv)], ~~ (\xv, y) \sim \pv^t.
+		\end{align}
+		(Here the hat notation is to remind you that this is an empirical expectation specified by $\pv^t$ over our training data.) Let $\epsilon_t$ be defined as in \eqref{eq:eps}. Prove that the optimal $\beta$ in \eqref{eq:bopt} is given in \eqref{eq:beta}.
+
+		[Hint: We remind again that both $y$ and $h_t(\xv)$ are $\{\pm 1\}$-valued. Split training examples according to $h_t(\xv_i) = y_i$ or not.]
+
+\ans{} 
+		\item (1 pt) What is the training error
+		\begin{align}
+		\epsilon_{t+1}(h_t) = \sum_{i=1}^n p^{t+1}_i \cdot \pred{h_t(\xv_i) \ne y_i}
+		\end{align}
+		of the weak classifier $h_t$ on the next round $t+1$? Justify your answer. You may assume $0 < \epsilon_t < 1$ so that all quantities are well-defined.
+
+      [Hint: This exercise should be simple, given what you have done in~\ref{asdf}. Split training examples according to $h_t(\xv_i) = y_i$ or not.]
+
+  \ans{} 
+	\end{enumerate}
+
+\end{exercise}
+
+\begin{exercise}[CNN Implementation (8 pts)]
+	\blue{\textbf{Note}: Please mention your Python version (and maybe the version of all other packages). For this exercise, you may submit a Python notebook.}
+	
+	% In this exercise you are going to run some experiments involving CNNs. You need to know \href{https://www.python.org/}{\magenta{Python}} and install the following libraries: \href{https://keras.io/}{\magenta{Keras}}, \href{https://www.tensorflow.org/install/}{\magenta{Tensorflow}}, \href{http://www.numpy.org/}{\magenta{Numpy}} and all their dependencies. You can find detailed instructions and tutorials for each of these libraries on the respective websites. 
+	% [To install, try \textsf{pip install keras}. For Tensorflow, follow the installation steps on its webpage.]
+	
+  In this exercise you are going to run some experiments involving CNNs. You need \href{https://www.python.org/}{\magenta{Python}}, \href{https://matplotlib.org/}{\magenta{matplotlib}}, and either \href{https://pytorch.org/get-started/locally/}{\magenta{PyTorch}},  \href{https://www.tensorflow.org/tutorials/quickstart/beginner}{\magenta{TensorFlow}}, or \href{https://jax.readthedocs.io/en/latest/notebooks/quickstart.html}{\magenta{JAX}} (for the adventurous). Be sure to install all necessary dependencies. You can find detailed instructions and tutorials for each of these libraries on the respective websites. 
+	
+	For all experiments, running on CPU is sufficient. 
+  You do not need to run the code on GPUs.
+  You may find \href{https://colab.research.google.com/}{Colab} useful for running things more efficiently (for free), but note that heavy usage may result in them taking away your GPU (unless you pay).
+	% Before start, we suggest you review what we learned about each layer in CNN, and read at least this \href{https://keras.io/getting-started/sequential-model-guide/}{\magenta{tutorial}}.
+  Before start, we suggest you review what we learned about each layer in CNN, and read the documentation and tutorial for your framework of choice (either PyTorch, TensorFlow, or JAX).
+	
+  \begin{enumerate}[label=\alph*)]
+		\item Train a VGG11 net on the \href{http://yann.lecun.com/exdb/mnist/}{\magenta{MNIST}} dataset. 
+		VGG11 was an earlier version of VGG16 and can be found as model A in Table 1 of this \href{https://arxiv.org/pdf/1409.1556.pdf}{\magenta{paper}}, whose Section 2.1 also gives you all the details about each layer.
+		The goal is to get the loss as close to 0 loss as possible. Note that our input dimension is different from the VGG paper. You need to resize each image in MNIST from its original size $28 \times 28$ to $32 \times 32$ [make sure you understand why this is].
+		
+		For your convenience, we list the details of the VGG11 architecture here.
+		The convolutional layers are denoted as \texttt{Conv(number of input channels, number of output channels, kernel size, stride, padding)};
+		the batch normalization layers  are denoted as \texttt{BatchNorm(number of channels)};
+		the max-pooling layers are denoted as \texttt{MaxPool(kernel size, stride)};
+		the fully-connected layers are denoted as \texttt{FC(number of input features, number of output features)};
+		the drop out layers are denoted as \texttt{Dropout(dropout ratio)}:
+		\begin{verbatim}
+		- Conv(001, 064, 3, 1, 1) - BatchNorm(064) - ReLU - MaxPool(2, 2)
+		- Conv(064, 128, 3, 1, 1) - BatchNorm(128) - ReLU - MaxPool(2, 2)
+		- Conv(128, 256, 3, 1, 1) - BatchNorm(256) - ReLU 
+		- Conv(256, 256, 3, 1, 1) - BatchNorm(256) - ReLU - MaxPool(2, 2)
+		- Conv(256, 512, 3, 1, 1) - BatchNorm(512) - ReLU 
+		- Conv(512, 512, 3, 1, 1) - BatchNorm(512) - ReLU - MaxPool(2, 2)
+		- Conv(512, 512, 3, 1, 1) - BatchNorm(512) - ReLU 
+		- Conv(512, 512, 3, 1, 1) - BatchNorm(512) - ReLU - MaxPool(2, 2)
+		- FC(0512, 4096) - ReLU - Dropout(0.5) 
+		- FC(4096, 4096) - ReLU - Dropout(0.5) 
+		- FC(4096, 10)
+		\end{verbatim}
+		You should use the cross-entropy loss at the end.
+		
+		[This experiment will take up to 1 hour on a CPU, so please be cautious of your time. If this running time is not bearable, you may cut the training set to 1/10, so only have $\sim$600 images per class instead of the regular $\sim$6000.]
+		
+		\item Once you've done the above, the next goal is to inspect the training process. Create the following plots:
+      \begin{enumerate}[label=(\roman*)]
+			\item (1 pt) test accuracy vs the number of epochs (say 3 $\sim$ 5)
+			\item (1 pt) training accuracy vs the number of epochs
+			\item (1 pt) test loss vs the number of epochs
+			\item (1 pt) training loss vs the number of epochs
+		\end{enumerate}
+		[If running more than 1 epoch is computationally infeasible, simply run 1 epoch and try to record the accuracy/loss after every few minibatches.]
+		
+		\ans{}
+		
+		\item Then, it is time to inspect the generalization properties of your final model. Flip and blur the \red{test set images} using any Python library of your choice, and complete the following:		
+      \begin{enumerate}[label=(\roman*)]
+			\item (1 pt) test accuracy vs type of flip. Try the following two types of flipping: flip each image from left to right, and from top to bottom. Report the test accuracy after each flip. What is the effect? Please explain the effect in one sentence.
+			
+			As one resource for those working in PyTorch, you can read this \href{https://pytorch.org/vision/stable/transforms.html}{\magenta{doc}} to learn how to build a complex transformation pipeline. We suggest the following command for performing flipping: 
+			\begin{verbatim}
+			torchvision.transforms.RandomHorizontalFlip(p=1)
+			torchvision.transforms.RandomVerticalFlip(p=1)
+			\end{verbatim}
+			
+			\ans{}
+			
+			\item (1 pt) test accuracy vs Gaussian noise. Try adding standard Gaussian noise to each test image with variance 0.01, 0.1, 1 and report the test accuracies. What is the effect? Please explain the effect in one sentence.
+			
+			Again for those working in PyTorch, one way of approaching this is to apply a user-defined lambda as a new transform t which adds Gaussian noise with variance say 0.01: 
+			\begin{verbatim}
+			t = torchvision.transforms.Lambda(lambda x : x + 0.1*torch.randn_like(x))
+			\end{verbatim}
+			
+			\ans{}
+		\end{enumerate} 
+		
+		\item (2 pts) Lastly, let us verify the effect of regularization. Retrain your model with data augmentation and test again as in part 3. Report the test accuracies and explain what kind of data augmentation you use in retraining.
+		
+		\ans{}
+		
+	\end{enumerate}
+	
+\end{exercise}
+
+
+
+\end{document}
+              
