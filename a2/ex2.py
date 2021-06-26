@@ -20,3 +20,7 @@ Y_test_B = np.loadtxt('data/Y_test_B.csv', delimiter=",").astype(int)
 # print(log_reg.summary())
 clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
 clf.fit(X_train_A, Y_train_A)
+p = clf.predict(X_train_A)
+
+for x in X_train_A:
+    print(np.inner(x,clf.predict(x)))

@@ -1,0 +1,8 @@
+Exercise 2
+Usage: python3 ex2.py
+
+Exercise 3
+internal variables pre-set:
+max_pass = 1000
+eta = 0.0001
+Usage: python3 ex3.py X_train Y_train X_test Y_test C eps

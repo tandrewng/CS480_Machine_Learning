@@ -8,7 +8,7 @@ def SVR(X_train, Y_train, C, eps):
     #Implement me! You may choose other parameters eta, max_pass, etc. internally
     #Return: parameter vector w, b
     max_pass = 1000
-    eta = 0.000000001
+    eta = 0.0001
     n = len(Y_train)
     w = np.zeros(len(X_train[0]))
     b = 0
@@ -18,12 +18,12 @@ def SVR(X_train, Y_train, C, eps):
 
             if (abs(Y_train[i] - (np.inner(X_train[i],w) + b)) - eps) >= 0:
                 if ((Y_train[i] - (np.inner(X_train[i],w) + b)) - eps) >= 0:
-                    w = w - np.multiply(eta, X_train[i])
-                    b = b - eta
-                else:
                     w = w + np.multiply(eta, X_train[i])
                     b = b + eta
-        w = np.multiply(w, 1/(1+eta))
+                else:
+                    w = w - np.multiply(eta, X_train[i])
+                    b = b - eta
+            w = np.multiply(w, 1/(1+eta))
     return w, b
 
 def compute_loss(X, Y, w, b, C, eps):
@@ -51,5 +51,6 @@ if __name__ == "__main__":
     C = float(args[4])
     eps = float(args[5])
     w, b = SVR(X_train, Y_train, C, eps)
-    print("error:", compute_error(X_test, Y_test, w, b, C, eps))
-    print("loss:", compute_loss(X_test, Y_test, w, b, C, eps))
+    print("training error:", compute_error(X_train, Y_train, w, b, C, eps))
+    print("training loss:", compute_loss(X_train, Y_train, w, b, C, eps))
+    print("test error:", compute_loss(X_test, Y_test, w, b, C, eps))
