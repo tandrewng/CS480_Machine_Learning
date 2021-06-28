@@ -37,19 +37,22 @@ class Node:
         for feature in rootd:
             # best split val for the feature
             best_feat_split_val = self.X[0][feature]
-            best_feat_split_loss = float("inf")
+            split_vals = set()
             for input in range(num_inputs):
-                split_val = self.X[input][feature]
+                split_vals.add(self.X[input][feature])
+
+            best_feat_split_loss = float("inf")
+            for split in split_vals:
                 yl = np.array([])
                 yr = np.array([])
                 for i in range(num_inputs):
-                    if (self.X[i][feature] <= split_val):
+                    if (self.X[i][feature] <= split):
                         yl = np.append(yl, self.y[i])
                     else:
                         yr = np.append(yr, self.y[i])
                 split_loss = len(yl)/num_inputs * self.f(yl) + len(yr)/num_inputs * self.f(yr)
                 if (split_loss < best_feat_split_loss):
-                    best_feat_split_val = split_val
+                    best_feat_split_val = split
                     best_feat_split_loss = split_loss
             splits = np.append(splits, best_feat_split_val)
             losses = np.append(losses, best_feat_split_loss)
@@ -183,9 +186,9 @@ gini_train = np.array([])
 gini_test = np.array([])
 entropy_train = np.array([])
 entropy_test = np.array([])
-x_axis = range(14)
+x_axis = range(13)
 
-for i in range(14):
+for i in range(13):
     dtMissclassification = DecisionTree(missclassification, i)
     dtMissclassification.build(X_train, y_train)
     missclassification_y_train = dtMissclassification.predict(X_train)
@@ -226,8 +229,9 @@ plt.savefig("Entropy.png")
 plt.clf()
 '''
 # Part B
+w_accuracies = []
+wo_accuracies = []
 for j in range(11):
-    print("Run:", j)
     datasets_X = np.empty_like([X_train])
     datasets_y = np.empty_like([y_train])
 
@@ -247,26 +251,44 @@ for j in range(11):
     datasets_X = datasets_X[1:]
     datasets_y = datasets_y[1:]
     test_accuracies_without = np.array([])
-    test_accuracies_with = np.array([]) 
+    test_accuracies_with = np.array([])
+    pred_y_without = np.empty_like([y_test])
+    pred_y_with = np.empty_like([y_test])
     for b in range(101):
         dtEntropyWithout = DecisionTree(entropy, 3)
         dtEntropyWithout.build(datasets_X[b], datasets_y[b])
-        entropy_y_test = dtEntropyWithout.predict(X_test)
-        test_accuracies_without = np.append(test_accuracies_without, accuracy(entropy_y_test, y_test))
+        entropy_y_test_without = dtEntropyWithout.predict(X_test)
+        pred_y_without = np.append(pred_y_without, np.array([entropy_y_test_without]), axis=0)
 
         dtEntropyWith = DecisionTree(entropy, 3, True)
         dtEntropyWith.build(datasets_X[b], datasets_y[b])
-        entropy_y_test = dtEntropyWith.predict(X_test)
-        test_accuracies_with = np.append(test_accuracies_with, accuracy(entropy_y_test, y_test))
-    
-    test_median_without = np.median(test_accuracies_without)
-    test_minimum_without = np.amin(test_accuracies_without)
-    test_maximum_without = np.amax(test_accuracies_without)
-    print("Without Random Forests")
-    print("Test Median: {}, Test Minimum: {}, Test Maximum: {}".format(test_median_without, test_minimum_without, test_maximum_without))
+        entropy_y_test_with = dtEntropyWith.predict(X_test)
+        pred_y_with = np.append(pred_y_with, np.array([entropy_y_test_with]), axis=0)
 
-    test_median_with = np.median(test_accuracies_with)
-    test_minimum_with = np.amin(test_accuracies_with)
-    test_maximum_with = np.amax(test_accuracies_with)
-    print("With Random Forests")
-    print("Test Median: {}, Test Minimum: {}, Test Maximum: {}".format(test_median_with, test_minimum_with, test_maximum_with))
+    pred_y_without = pred_y_without[1:]
+    pred_y_with = pred_y_with[1:]
+
+    without_acc = 0
+    with_acc = 0
+    test_n = len(y_test)
+    for i in range(test_n):
+        pred_without = pred_y_without[:,i]
+        y_without = round(np.average(pred_without))
+        if (y_without == y_test[i]):
+            without_acc += 1
+
+        pred_with = pred_y_with[:,i]
+        y_with = round(np.average(pred_with))
+        if (y_with == y_test[i]):
+            with_acc += 1
+
+    without_acc /= test_n
+    with_acc /= test_n
+
+    wo_accuracies.append(without_acc)
+    w_accuracies.append(with_acc)
+
+print("Without Random Forests")
+print("Median: {}, Minimum: {}, Maximum: {}".format(np.median(wo_accuracies), np.amin(wo_accuracies), np.amax(wo_accuracies)))
+print("With Random Forests")
+print("Median: {}, Minimum: {}, Maximum: {}".format(np.median(w_accuracies), np.amin(w_accuracies), np.amax(w_accuracies)))
