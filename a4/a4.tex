@@ -1,0 +1,305 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+
+\lhead{
+\textbf{University of Waterloo}
+}
+\rhead{\textbf{2021 Spring}
+}
+\chead{\textbf{
+CS480/680
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\Id}{\mathbb{I}}
+\newcommand{\NN}{\mathds{N}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\alphav}{\boldsymbol{\alpha}}
+\newcommand{\betav}{\boldsymbol{\beta}}
+\newcommand{\av}{\mathbf{a}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\sv}{\mathbf{s}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\zv}{\mathbf{z}}
+\newcommand{\uv}{\mathbf{u}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+\newcommand{\sgm}{\mathsf{sgm}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Gautam Kamath (gckamath@uwaterloo.ca) \textcopyright 2021}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+\usepackage{xpatch}
+\xpretocmd{\algorithm}{\hsize=\linewidth}{}{}
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+\large{\textbf{CS480/680: Introduction to Machine Learning} \\ Homework 4\\ Due: 11:59 pm, July 23, 2021, submit on CrowdMark.} \\
+
+
+\end{center}
+
+\begin{center}
+Submit your writeup in pdf and all source code in a zip file (with proper documentation). Write a script for each programming exercise so that the TAs can easily run and verify your results. Make sure your code runs!
+
+[Text in square brackets are hints that can be ignored.]
+\end{center}
+
+\begin{exercise}[Gaussian Mixture Model (GMM) (10 pts)]
+	\blue{\textbf{Notation}: For a matrix $A$, $|A|$ denotes its \href{https://en.wikipedia.org/wiki/Determinant}{\magenta{determinant}}. For a \href{https://en.wikipedia.org/wiki/Diagonal_matrix}{\magenta{diagonal matrix}} $\diag(\sv)$, $|\diag(\sv)| = \prod_{i} s_i$.}
+	
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\KwIn{$X\in\RR^{n\times d}$, $K\in \NN$, initialization for $model$}
+		\tcp{$model$ includes $\pi\in\RR^K_+$ and for each $1\leq k \leq K$, $\boldsymbol{\mu}_k \in \RR^d$ and $S_k\in\mathbb{S}^d_+$}
+		\tcp{$\pi_k \geq 0$, $\sum_{k=1}^K \pi_k = 1$, $S_k$ symmetric and positive definite.}
+		\tcp{random initialization suffices for full credit.}
+		\tcp{alternatively, can initialize $r$ by randomly assigning each data to one of the $K$ components}
+		\KwOut{$model, \ell$}
+		
+		\For{$iter = 1: \textsc{maxiter}$}{
+			\tcp{step 2, for each $i=1,\ldots, n$}
+			\For{$k=1, \ldots, K$}{
+				\red{$r_{ik} \gets \pi_k |S_k|^{-1/2} \exp[-\frac{1}{2} (\xv_i - \boldsymbol{\mu}_k)^\top S_k^{-1}(\xv_i - \boldsymbol{\mu}_k)]$} \tcp*{compute responsibility}			
+			}
+			
+			\tcp{for each $i=1,\ldots, n$}
+			$r_{i.} \gets \sum_{k=1}^K r_{ik}$
+			
+			\tcp{for each $k=1, \ldots, K$ and $i=1,\ldots, n$}		
+			$r_{ik} \gets r_{ik} / r_{i.}$ \tcp*{normalize}
+			
+			\tcp{compute negative log-likelihood}
+			$\ell(iter) = -\sum_{i=1}^n \log(r_{i.})$
+			
+			\If{$iter > 1 ~\&\&~ |\ell(iter)-\ell(iter-1)| \leq \textsc{tol}*|\ell(iter)|$}{
+				\textbf{break}
+			}
+			
+			\tcp{step 1, for each $k=1, \ldots, K$}
+			$r_{.k} \gets \sum_{i=1}^n r_{ik}$
+			
+			$\pi_k \gets r_{.k} / n$
+			
+			$\boldsymbol{\mu}_k = \sum_{i=1}^n r_{ik} \xv_i / r_{.k}$
+			
+			\red{$S_k \gets \left(\sum_{i=1}^n r_{ik} \xv_i \xv_i^\top / r_{.k}\right) - \boldsymbol{\mu}_k \boldsymbol{\mu}_k^\top$}
+		}
+		\caption{EM for GMM.}
+		\label{alg:gmm}
+	\end{algorithm}
+	
+	\begin{enumerate}[label=\alph*)]
+		\item (5 pts) Derive and implement the EM algorithm for the diagonal Gaussian mixture model, where all covariance matrices are constrained to be diagonal. \Cref{alg:gmm} recaps all the essential steps and serves as a hint rather than a verbatim instruction. In particular, you must change the highlighted steps accordingly (with each $S_k$ being a diagonal matrix), along with formal explanations. Analyze the space and time complexity of your implementation. 
+		
+		[You might want to review the steps we took in class for a simpler case, and ensure you can derive the updates in \Cref{alg:gmm}. Then adapt the steps to the simpler diagonal case. The solution should look like $s_j = \frac{\sum_{i=1}^n r_{ik} (x_{ij} - \mu_j)^2}{\sum_{i=1}^n r_{ik} } = \frac{\sum_{i=1}^n r_{ik} x_{ij} ^2}{\sum_{i=1}^n r_{ik} } - \mu_j^2$ for the $j$-th diagonal. Multiplying an $n\times p$ matrix with a $p\times m$ matrix costs $O(mnp)$. Do not maintain a diagonal matrix explicitly; using a vector for its diagonal suffices. ]
+		
+      [Warning: Either in this part or the next one, you may run into issues involving NaNs. You will have to diagnose these issues and fix them.]
+
+		To stop the algorithm, set a maximum number of iterations (say $\textsc{maxiter} = 500$) and also monitor the change of the negative log-likelihood $\ell$: 
+		\begin{align}
+		\ell = -\sum_{i=1}^n \log\left[\sum_{k=1}^K \pi_k |2\pi S_k|^{-1/2} \exp[ -\tfrac{1}{2}(\xv_i -\boldsymbol{\mu}_k)^\top S_k^{-1} (\xv_i - \boldsymbol{\mu}_k ) ]\right],
+		\end{align}
+		where $\xv_i$ is the $i$-th column of $X^\top$.
+		As a debug tool, note that $\ell$ should decrease from step to step, and we can stop the algorithm if the decrease is smaller than a predefined threshold, say $\textsc{tol} = 10^{-5}$.
+      \label{ex:gmm}
+
+
+    Run your algorithm on \texttt{gmm\_dataset.csv}, for $k = 1$ to $10$. 
+    Generate a plot with $k$ on the x-axis and the negative log-likelihood of the data under the final trained model on the y-axis. 
+    What do you think the most appropriate choice of $k$ is?
+    Explain and justify how and why you chose this value. 
+    [You may want to focus on more than just maximizing the log-likelihood.]
+    For your chosen value of $k$, report the parameters (mixing weights, mean vectors, and vectors corresponding to the diagonals of the covariance matrices) of your trained model.
+    When reporting them, sort the components in increasing order of mixing weights.
+
+		
+		\ans{}
+			
+		
+  \item (5 pts) Next, we apply (the adapted) \Cref{alg:gmm} in part \ref{ex:gmm} to the \href{https://pytorch.org/vision/0.9/datasets.html#mnist}{\magenta{MNIST}} dataset. For each of the 10 classes (digits), we can use its (only its) training images to estimate its (class-conditional) distribution by fitting a GMM (with say $K=5$, roughly corresponding to 5 styles of writing this digit). This gives us the density estimate $p(\xv | y)$ where $\xv$ is an image (of some digit) and $y$ is the class (digit). We can now classify the test set using the Bayes classifier:
+		\begin{align}
+		\hat y(\xv) = \arg\max_{c = 0, \ldots, 9} ~~ \underbrace{\mathrm{Pr}(Y = c) \cdot p(X = \xv | Y = c)}_{\propto ~\mathrm{Pr}(Y=c | X=\xv)},
+		\end{align}
+		where the probabilities $\mathrm{Pr}(Y = c)$ can be estimated using the training set, \eg, the proportion of the $c$-th class in the training set, and the \red{density} $p(X = \xv | Y = c)$ is estimated using GMM for each class $c$ separately. Report your error rate on the test set as a function of $K$ (if time is a concern, using $K=5$ will receive  full credit). 
+
+		[Optional: Reduce dimension by \href{https://en.wikipedia.org/wiki/Principal_component_analysis}{\magenta{PCA}} may boost accuracy quite a bit. Your running time should be on the order of minutes (for one $K$), if you do not introduce extra for-loops in \Cref{alg:gmm}.]
+		
+		[In case you are wondering, our classification procedure above belongs to the so-called plug-in estimators (plug the estimated densities to the known optimal Bayes classifier). However, note that estimating the density $p(X=\xv | Y = c)$ is actually harder than classification. Solving a problem (\eg classification) through some intermediate harder problem (\eg density estimation) is almost always a bad idea.]
+		
+		\ans{}
+		
+
+	\end{enumerate}	
+\end{exercise}
+
+\begin{exercise}[VAEs and GANs (10 pts)]
+  Code provided for this exercise is assuming a PyTorch solution, you may change it as necessary if you prefer to use TensorFlow or JAX.
+  You may find \href{https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html}{this tutorial} for GANs helpful. 
+  \begin{enumerate}[label=\alph*]
+    \item (4.5 pts) Complete the implementation of a VAE in vae.py. 
+      In your solution writeup, include the two produced graphs (corresponding to the training and test sets), with the epoch number on x-axis and the loss on the y-axis.
+      Further include the produced samples from every 10th epoch (after epochs 10, 20, 30, 40, and 50).
+
+      \ans{} 
+    \item (4.5 pts) Complete the implementation of a GAN in gan.py. 
+      In your solution writeup, include the two produced graphs (corresponding to the training and test sets), with the epoch number on x-axis and the losses (both generator and discriminator) on the y-axis.
+      Further include the produced samples from every 10th epoch (after epochs 10, 20, 30, 40, and 50).
+
+
+      \ans{} 
+    \item (1 pt) Describe, compare, and constrast your produced results and experiences with GANs and VAEs in this exercise.
+
+      \ans{} 
+  \end{enumerate}
+
+\end{exercise}
+
+
+\end{document}
+              
