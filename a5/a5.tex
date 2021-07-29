@@ -1,0 +1,336 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+
+\lhead{
+\textbf{University of Waterloo}
+}
+\rhead{\textbf{2021 Spring}
+}
+\chead{\textbf{
+CS480/680
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\Id}{\mathbb{I}}
+\newcommand{\NN}{\mathds{N}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\alphav}{\boldsymbol{\alpha}}
+\newcommand{\betav}{\boldsymbol{\beta}}
+\newcommand{\av}{\mathbf{a}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\sv}{\mathbf{s}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\zv}{\mathbf{z}}
+\newcommand{\uv}{\mathbf{u}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+\newcommand{\sgm}{\mathsf{sgm}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Gautam Kamath (gckamath@uwaterloo.ca) \textcopyright 2021}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+\usepackage{xpatch}
+\xpretocmd{\algorithm}{\hsize=\linewidth}{}{}
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+\large{\textbf{CS480/680: Introduction to Machine Learning} \\ Homework 5\\ Due: 11:59 pm, August 5, 2021, submit on CrowdMark.} \\
+\end{center}
+
+\begin{center}
+Submit your writeup in pdf and all source code in a zip file (with proper documentation). Write a script for each programming exercise so that the TAs can easily run and verify your results. Make sure your code runs!
+
+[Text in square brackets are hints that can be ignored.]
+\end{center}
+\begin{exercise}[Robustness and Lasso (5 pts)]
+	Consider the linear regression problem:
+	\begin{align}
+	\min_{\wv \in \RR^d} ~ \|X \wv - \yv\|_2,
+	\end{align}
+	where $X \in \RR^{n \times d}$, $\yv \in \RR^n$, $n$ is the number of training examples and $d$ is the number of features. For simplicity we omitted the bias. Now suppose we perturb each \emph{feature} independently, and we are interested in solving the robust linear regression problem:
+	\begin{align}
+    \min_{\wv\in\RR^d} ~ \max_{\forall j, \|\zv_j\|_2 \leq \lambda} ~ \|(X + Z)\wv - \yv\|_2, \label{eq:1}
+	\end{align}
+	where the perturbation matrix $Z = [\zv_1, \ldots, \zv_d] \in \RR^{n \times d}$. Prove that robust linear regression is exactly equivalent to (square-root) Lasso (note the absence of the square on the $\ell_2$ norm):
+	\begin{align}
+    \min_{\wv \in \RR^d} ~ \| X \wv - \yv\|_2 + \lambda\|\wv\|_1, \label{eq:2}
+	\end{align}
+	where recall that $\|\wv\|_1 = \sum_j |w_j|$.
+
+  [Hint: Start from (\ref{eq:1}), apply the Cauchy-Schwarz inequality $\|\wv\|_2 = \max\limits_{\|\uv\|_2 \leq 1} \wv^\top\uv$ a few times and a few other tricks, in order to convert it into (\ref{eq:2}).]
+
+\end{exercise}
+
+\begin{exercise}[Adversarial examples (7 pts)]
+	In this exercise we experiment with adversarial examples.
+
+	\begin{enumerate}[label=\alph*)]
+
+
+		\item (1 pts) Train a neural network on MNIST. (The dataset can be downloaded with torchvision API for example.) You can build your own model or use an existing model architecture. Report the architecture and the test accuracy (should be $>90\%$).
+
+		[You are suggested to save this trained model for later purposes.]
+
+		[You can use any model architecture (e.g. CNN, MLP), but the test accuracy should be at least $90\%$.]
+
+      \label{robust:a}
+
+  \item (2 pts) Use the Fast Gradient Sign Method (FGSM) to generate adversarial images for all the test images (one adversarial example per image) with $L_{\infty}$ perturbation budget $\epsilon = 0.2$ against your previous model, and report the model accuracy on this adversarially attacked set of test images. [The resulting value should be low.]
+
+		Display some of your adversarial images (e.g., randomly sample five) with their labels, and what do you observe?
+
+    Repeat the above with $\varepsilon = 0.1$ and $\varepsilon = 0.5$. What do you observe?
+
+
+		[Let $x$ denote the original image, and $\tilde{x}$ the perturbed image. $L_{\infty}$ perturbation with budget $\epsilon$ means $\|x-\tilde{x}\|_{\infty} \leq \epsilon$]
+      \label{robust:b}
+
+
+    \item (2 pts) Do adversarial training: Initialize a new model with same architecture as in part~\ref{robust:a}. During the training process, instead of using the original training data, generate adversarial examples (with an $L_{\infty}$ perturbation budget $\epsilon$ you prefer) with respect to the parameters at the current iteration and train on them instead.
+      %use adversarial images generated from the training data (these adversarial images are against your model in (1), and with an $L_{\infty}$ perturbation budget $\epsilon$ you prefer, e.g. $0.1$) to train your model.
+      Use FGSM to generate these adversarial images.
+
+      After you adversarially trained the new model, repeat the instructions in part~\ref{robust:b} with budgets $\epsilon=0.1$, $0.2$, and $0.5$ against your new model.
+      Compare the results with those from part~\ref{robust:b}, what do you observe by performing adversarial training?
+
+		[For adversarial training, feel free to generate and use more than one adversarial example per training image.]
+      \label{robust:c}
+
+    \item Repeat the previous part, but perform adversarial training using Projected Gradient Descent (PGD) to generate adversarial examples.
+      Afterwards, repeat the instructions in part~\ref{robust:b}: generate FGSM adversarial examples against your new adversarially trained model with budgets $\epsilon=0.1$, $0.2$, and $0.5$.
+      Additionally, repeat, except using PGD adversarial examples (instead of FGSM) at the same budgets.
+
+      Make a table with three columns (for standard training, FGSM adversarial training, PGD adversarial training) and three rows (for standard test accuracy, robust test accuracy when attacked by FGSM, and robust test accuracy when attacked by PGD), and fill in all nine entries (including ones you haven't already computed).
+      Comment on trends you observe.
+
+
+
+  \item (Optional: 0 points) Come up with a more robust model: that is, one which achieves a non-trivially higher accuracy when evaluated against PGD attacks. Do you believe that this is *truly* more robust? That is, can you come up with a better way of attacking your new method that causes the accuracy to drop lower again?
+
+    [The truth is that you are unlikely to come up with a truly and strongly robust model: in the research community, attacks are ``winning'' against the defenses. This is because of an asymmetry: for an attack to be good, it only needs to defeat one defense. But for a defense to be good, it must defeat all attacks.]
+	\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}[Membership Inference and Privacy (7 pts)]
+  In this problem, we will investigate membership inference attacks, and investigate whether one can defend against them.
+	\begin{enumerate}[label=\alph*)]
+    \item (4 pts)
+      Generate a dataset $X_1, \dots, X_n \sim N(0, I)$, and compute the empirical mean $\bar \mu = \frac{1}{n} \sum_i X_i$.
+      Suppose we have another dataset $Y_1, \dots, Y_n \sim N(0, I)$. 
+      Our goal will be to perform membership inference: given $Z \in \cup_i \{X_i, Y_i\}$ and $\bar \mu$, the goal is to try to infer whether $Z$ is part of the training data (i.e., it is one of the $X_i$'s) or not (that is, it is one of the $Y_i$'s). 
+      We denote these two cases as IN and OUT.
+      This is known as a \emph{membership inference attack}, and being successful at this constitutes a privacy violation for the training data $X_i$'s. 
+
+      For the remainder of this part, fix $n = 50$.
+      We will repeat the same experiment for dimension $d$ ranging from $10$ to $500$. 
+
+      Generate $X_1, \dots, X_n, Y_1, \dots, Y_n, \bar \mu$ as described above. 
+      Our algorithm will be: if $\langle Z, \bar \mu \rangle \geq T_d$ then predict IN, otherwise, predict OUT.
+      $T_d$ is a threshold (which is a function of $d$).
+      To determine $T_d$, write a function which takes in the $2n$ results of $\langle X_i, \bar \mu \rangle$ and $\langle Y_i, \bar \mu \rangle$ and chooses the threshold $T_d$ which maximizes the prediction accuracy of this test.
+      Create a plot with dimension on the x-axis and accuracy of this membership inference attack on the y-axis.
+
+      Note that this is ``cheating'': we looked at the data itself and optimized this threshold $T_d$.
+      But if we knew which elements were in and out of the set, we wouldn't need to run this algorithm.
+      So let us see if the $T_d$'s we determined ``generalize.''
+      Generate $X_1, \dots, X_n, Y_1, \dots, Y_n, \bar \mu$ freshly, and using the $T_d$ thresholds we generated previously, measure the effectiveness of this membership inference attack.
+      Create a plot with dimension on the x-axis and accuracy of this membership inference attack on the y-axis.
+
+      We will now investigate an approach to protect against membership inference attacks.
+      For the remainder of this part, fix $d = 50$.
+      We will compute $X_1, \dots, X_n, Y_1, \dots, Y_n, \bar \mu$ as before, but additionally generate $\tilde \mu = \bar \mu + N(0, \sigma^2 I)$, where we will range $\sigma^2$ between $0$ and $1$.
+      This will (roughly) inject differential privacy into the estimate $\tilde \mu$. 
+      As in the first part, for each value of $\sigma^2$, determine the threshold $U_{\sigma^2}$ which maximizes the accuracy of the following algorithm: if $\langle Z, \bar \mu \rangle \geq U_{\sigma^2}$ then predict IN, otherwise, predict OUT.
+      Create two plots. 
+      The first has $\sigma^2$ on the x-axis, and $\|\tilde \mu\|_2$ on the y-axis. 
+      This measures the accuracy of the estimate: the smaller, the better.
+      The second has $\sigma^2$ on the x-axis and the membership inference attack accuracy on the y-axis (once again, the lower the better).
+      When generating these plots, the values will have rather high variance: independently repeat the computations for each value of $\sigma^2$ several times ($1000$ may be reasonable) to get better estimates.
+      [Note again that this example is cheating, but it gives an upper bound on how well this attack could work.]
+
+      Comment on all your findings as you present your results.
+
+
+    \item (3 pts)
+      Now let's do membership inference on a machine learning model. 
+      We will use Fashion MNIST for this part, which can be loaded in similar ways that you have loaded MNIST in the past.
+      We will take the first $n$ elements of the training set and train a logistic regression model on this subset.
+      To balance things, we will also use only the first $n$ elements of the testing set.
+      Run the following for $n = 100, 200, 400, 800, 1600, 2500, 5000, 10000$, and you may use logistic regression from sklearn.
+
+      First, train logistic regression with no regularization. 
+      Plot the training and testing accuracy on the y-axis, with $n$ on the x-axis. 
+
+      Next, train logistic regression with $\ell_2$ regularization with parameter $C = 0.01$.
+      Plot the training and testing accuracy on the y-axis, with $n$ on the x-axis. 
+
+      Now, for both models, we will perform the following attack: if a point is classified correctly by the model, predict IN, otherwise, predict OUT.
+      Measure the accuracy of this attack using the training data as the IN set, and the test data as the OUT set.
+      Create a plot with $n$ on the x-axis, and the attack accuracy of both the regularized and unregularized models on the y-axis.
+
+      For the remainder of the problem, fix $n = 400$.
+      Now, we will try to defend against membership inference attacks.
+      Train two logistic regression models: one with no regularization, and one with $\ell_2$-regularization with paramger $C = 0.1$.
+      Noise the resulting parameter vectors by adding $N(0, \sigma^2 I)$ noise, where we will vary $\sigma^2$ from $0$ to $5$.
+      Create a plots for both models, with training and test accuracy on the y-axis and $\sigma^2$ on the x-axis.
+      Run the same membership inference attack as before, and create a plot with $\sigma^2$ on the x-axis and the attack accuracy of both models on the y-axis.
+
+      Comment on all your findings as you present your results.
+      Give the best explanation you can for why membership inference attacks happen in these settings.
+      
+    \item (Optional, 0 pts)
+      Play around with the logistic regression model. 
+      Are there other ways you can protect against this membership inference attack?
+      
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
+              
